@@ -118,6 +118,8 @@ Defines the model’s input, main structure, and output configurations. Example 
 
 During training, the process will build and train a model on your dataset. This will be repeated a specified number of times, with each run using a different random seed. The seed affects the initialization of model parameters and data shuffling during training.
 
+Before training, the process will attempt to read your dataset. If it is not present, the dataset will be created and saved on your device. For this, your shapefile must have a field named "train" using integer values. 0 will mean the entity should be used in the traininng dataset, 1 for the validation dataset and 2 for the test dataset.
+
 ---
 
 ### Drawing (Inference)
