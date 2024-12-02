@@ -122,8 +122,4 @@ During training, the process will build and train a model on your dataset. This 
 
 ### Drawing (Inference)
 
-After training, the system computes results for specified entities (from the shapefile and the fieldname ID). The inference process uses all models trained in the previous step, enabling computations of averages, standard deviations, and more. Output images are saved as `.tif` files, which can be easily visualized in QGIS.
-
----
-
-Let me know if you need additional refinements!
+After training, the system computes results for specified entities (from the shapefile and the fieldname ID). The inference process can use many models and will always use every one obtained through iteration, enabling computations of averages, standard deviations, and more. Output images are saved as `.tif` files, which can be easily visualized in QGIS.
