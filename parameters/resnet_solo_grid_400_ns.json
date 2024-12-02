@@ -1,0 +1,228 @@
+{
+    "batch_size": 32,
+    "epochs": 32,
+    "min_learning_rate": 1e-6,
+    "patience": 5,
+    "optimizer_name": "adam",
+    "criterion": "val_loss",
+    "model_name": "resnet_solo_grid_400_ns",
+    "model_architecture": "resnet",
+    "area_size": 400.0,
+    "seeds_number": 30,
+
+    "inputs": [
+        {
+            "name": "ice_velocity_x",
+            "resolution": 50.0,
+            "scalar": false
+        },
+        {
+            "name": "ice_velocity_y",
+            "resolution": 50.0,
+            "scalar": false
+        }
+    ],
+
+    "outputs": [
+        {
+            "name": "ice_thickness",
+            "resolution": 12.5,
+            "scalar": true
+        }
+    ],
+
+    "losses_name": {
+        "ice_thickness": "nan_mae"
+    },
+    "metrics_name": {
+        "ice_thickness": ["nan_mae", "nan_mse"]
+    },
+
+    "drawing_description":{
+        "features": ["A51d-10", "A55f-03", "B43-03", "B56-07", "B60-09", "B90-02"],
+        "profiles": ["A51d-10", "A55f-03", "B43-03", "B56-07", "B60-09", "B90-02"],
+        "models": ["resnet_solo_grid_400_ns"]
+    },
+
+    "dataset_description":{
+        "dataset_name": "grid_400",
+        "epsg": 2056,
+        "shapefile_file": "SGI_2016_glaciers.shp",
+        "shapefile_fieldname": "sgi-id",
+        "buffer_distance": 400.0,
+        "rasters": [
+            {
+                "name": "ice_velocity_magnitude",
+                "resolution": 50.0,
+                "file": "V_RGI-11_2021July01.tif"
+            },
+            {
+                "name": "ice_velocity_x",
+                "resolution": 50.0,
+                "file": "VX_RGI-11_2021July01.tif"
+            },
+            {
+                "name": "ice_velocity_y",
+                "resolution": 50.0,
+                "file": "VY_RGI-11_2021July01.tif"
+            },
+            {
+                "name": "slope",
+                "resolution": 12.5,
+                "file": "slope_swissAlti3d.tif"
+            },
+            {
+                "name": "ice_thickness",
+                "resolution": 12.5,
+                "file": "IceThickness.tif"
+            },
+            {
+                "name": "ice_classification",
+                "resolution": 12.5,
+                "file": "glacier_classification.tif"
+            },
+            {
+                "name": "hypsometry",
+                "resolution": 12.5,
+                "file": "SwissALTI3D_r2019_hypso_12,5x12,5.tif"
+            }
+        ]
+    },
+
+    "model_description": {
+        "inputs": {
+            "ice_velocity_magnitude": {
+                "operations": [
+                    {
+                        "name": "convolutions",
+                        "filters": [16, 16],
+                        "kernel_size": 3
+                    }
+                ]
+            },
+            "ice_velocity_x": {
+                "operations": [
+                    {
+                        "name": "convolutions",
+                        "filters": [16, 16],
+                        "kernel_size": 3
+                    }
+                ]
+            },
+            "ice_velocity_y": {
+                "operations": [
+                    {
+                        "name": "convolutions",
+                        "filters": [16, 16],
+                        "kernel_size": 3
+                    }
+                ]
+            },
+            "slope": {
+                "operations": [
+                    {
+                        "name": "convolutions",
+                        "filters": [16, 16],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "downsample"
+                    },
+                    {
+                        "name": "convolutions",
+                        "filters": [16, 16],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "downsample"
+                    }
+                ]
+            },
+            "hypsometry": {
+                "operations": [
+                    {
+                        "name": "convolutions",
+                        "filters": [16, 16],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "downsample"
+                    },
+                    {
+                        "name": "convolutions",
+                        "filters": [16, 16],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "downsample"
+                    }
+                ]
+            }
+        },
+
+        "main": {
+            "main": {
+                "operations": [
+                    {
+                        "name": "concatenation"
+                    },
+                    {
+                        "name": "convolutions",
+                        "filters": [32, 32],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "downsample"
+                    }
+                ]
+            }
+        },
+
+        "outputs": {
+            "ice_thickness": {
+                "operations": [
+                    {
+                        "name": "convolutions",
+                        "filters": [32, 32],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "downsample"
+                    },
+                    {
+                        "name": "convolutions",
+                        "filters": [64, 64],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "denses",
+                        "filters": [256, 1],
+                        "last_activation": "relu"
+                    }
+                ]
+            },
+            "ice_classification": {
+                "operations": [
+                    {
+                        "name": "convolutions",
+                        "filters": [32, 32],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "downsample"
+                    },
+                    {
+                        "name": "convolutions",
+                        "filters": [64, 64],
+                        "kernel_size": 3
+                    },
+                    {
+                        "name": "denses",
+                        "filters": [256, 1],
+                        "last_activation": "sigmoid"
+                    }
+                ]
+            }
+        }
+    }
+}
