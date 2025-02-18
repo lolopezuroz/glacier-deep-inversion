@@ -1,4 +1,4 @@
-from functions.importation import tensorflow as tf, os, math, Image
+from functions.importation import tensorflow as tf, os, math, Image, numpy as np
 from functions.usual_functions import find_ref
 
 def load_dataset(
@@ -46,7 +46,7 @@ def load_dataset(
         def load_img(feature_path, product_name):
             array_path = feature_path + f"/{product_name}.tif"
             return tf.py_function(
-                lambda filename : Image.open(str(filename.numpy())[2:-1]),
+                lambda filename : np.array(Image.open(str(filename.numpy())[2:-1])),
                 [array_path],
                 tf.float32
             )

@@ -76,7 +76,7 @@ def train(
     dataset_parameters = parameters["dataset_description"]
 
     model_path = os.path.join(
-        "../deployed",
+        "deployed",
         "models",
         parameters["model_name"]
     )
@@ -84,7 +84,7 @@ def train(
         create_model(parameters)
 
     dataset_path = os.path.join(
-        "../deployed",
+        "deployed",
         "datasets",
         dataset_parameters["dataset_name"]
     )

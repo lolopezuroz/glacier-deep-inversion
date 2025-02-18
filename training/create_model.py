@@ -88,7 +88,7 @@ def create_model(
     )
 
     model_directory = os.path.join( # generate unique directory to save train states and parameters
-        "../",
+        "./",
         "deployed",
         "models",
         model_name,
@@ -97,11 +97,11 @@ def create_model(
     exist_directory(model_directory)
 
     # save model graph
-    keras.utils.plot_model(
-        model,
-        os.path.join(model_directory, f"{model_name}.png"),
-        show_shapes = True
-    )
+    #keras.utils.plot_model(
+    #    model,
+    #    os.path.join(model_directory, f"{model_name}.png"),
+    #    show_shapes = True
+    #)
 
     construction_parameters = {
         "name": model_name,
