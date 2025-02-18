@@ -25,7 +25,6 @@ def predict_profiles(
     )
     
     dataset_path = feature_path = os.path.join(
-        "../",
         "deployed",
         "datasets",
         model_parameters["dataset_description"]["dataset_name"]
@@ -100,7 +99,7 @@ def predict_map(
     outputs_name = [output["name"] for output in outputs]
 
     dataset_path = feature_path = os.path.join(
-        "../deployed",
+        "deployed",
         "datasets",
         model_parameters["dataset_description"]["dataset_name"]
     )

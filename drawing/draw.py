@@ -28,7 +28,7 @@ def draw(parameters):
     profiles_names = drawing_parameters["profiles"]
 
     model_path = os.path.join(
-        "../deployed",
+        "deployed",
         "models",
         model_name,
     )
@@ -51,7 +51,7 @@ def draw(parameters):
             model.load_weights(weights_path)
 
             save_location = os.path.join(
-                "../figures",
+                "figures",
                 model_name,
                 seed,
                 epoch.split(".")[0]
